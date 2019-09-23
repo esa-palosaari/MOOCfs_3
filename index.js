@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-let numbers = [
+let persons = [
     {
         name: "Arto Hellas",
         number: "040-123456",
@@ -24,5 +24,17 @@ let numbers = [
     }
 ]
 
+app.get('/', (req, res) => {
+    res.send('<h1>Hello!</h1>')
+})
+
+app.get('/persons', (req, res) => {
+    res.json(persons)
+})
+
+const PORT = 3001
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
 
 console.log('first iteration')
