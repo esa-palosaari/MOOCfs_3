@@ -32,6 +32,13 @@ app.get('/persons', (req, res) => {
     res.json(persons)
 })
 
+
+// 3.2 https://fullstackopen.com/osa3/node_js_ja_express#tehtavia
+app.get('/info', (req, res) => {
+    res.send(`<p>Phonebook has info for ${persons.length} people</p>
+              <p>${new Date()}</p>`)
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
