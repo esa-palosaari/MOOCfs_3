@@ -39,6 +39,28 @@ app.get('/info', (req, res) => {
               <p>${new Date()}</p>`)
 })
 
+
+/* 
+3.3: puhelinluettelon backend step3
+Toteuta toiminnallisuus yksittäisen puhelinnumerotiedon näyttämiseen. 
+Esim. id:n 5 omaavan numerotiedon url on http://localhost:3001/api/persons/5
+Jos id:tä vastaavaa puhelinnumerotietoa ei ole, tulee palvelimen 
+vastata asianmukaisella statuskoodilla.
+*/
+
+app.get('/api/persons/:id', (req, res) => {
+    const id = Number(req.params.id)
+    const person = persons.find(person => person.id ===id)
+    if (!person) 
+    {
+        return res.status(400).json({
+            error: 'person missing'
+        })
+    }
+    res.json(person)
+})
+
+
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
