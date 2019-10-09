@@ -1,5 +1,8 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.json())
 
 let persons = [
     {
@@ -73,6 +76,78 @@ app.delete('/api/persons/:id', (req, res) =>
     persons = persons.filter(person => person.id !== id)
     res.status(204).end()
 })
+
+/*
+3.5: puhelinluettelon backend step5
+Laajenna backendia siten, että uusia puhelintietoja on 
+mahdollista lisätä osoitteeseen http://localhost:3001/api/persons tapahtuvalla 
+HTTP POST -pyynnöllä.
+Generoi uuden puhelintiedon tunniste funktiolla 
+Math.random. Käytä riittävän isoa arvoväliä, jotta 
+arvottu id on riittävän suurella todennäköisyydellä 
+sellainen, joka ei ole jo käytössä.
+*/
+
+/*
+3.6: puhelinluettelon backend step6
+
+Tee uuden numeron lisäykseen virheiden käsittely. Pyyntö ei saa onnistua, jos
+    nimi tai numero puuttuu
+    lisättävä nimi on jo luettelossa
+Vastaa asiaankuuluvalla statuskoodilla ja liitä vastaukseen mukaan myös tieto, 
+joka kertoo virheen syyn, esim:
+{ error: 'name must be unique' }
+*/
+
+const randomId = () => {
+    return Math.floor(Math.random()*Number.MAX_SAFE_INTEGER)
+}
+
+app.post('/persons', (request, response) =>
+{
+    const body = request.body
+    if (!body.name) 
+    {
+        return response.status(400).json(
+            {
+                error: 'name missing'
+            }
+        )
+    }
+
+    if (!body.number)
+    {
+        return response.status(400).json(
+            {
+                error: 'number missing'
+            }
+        )
+    }
+
+    if (persons.find(function(element) {
+        return element.name===body.name
+    } )) 
+    {
+        return response.status(400).json(
+            {
+                error: 'name must be unique'
+            }
+        )
+    }
+
+    const person = 
+    {
+        name: body.name,
+        number: body.number,
+        id: randomId()
+    }
+
+    persons = persons.concat(person)
+    console.log(person)
+    response.json(person)
+})
+
+
 
 const PORT = 3001
 app.listen(PORT, () => {
