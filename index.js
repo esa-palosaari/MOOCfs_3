@@ -1,8 +1,22 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const morgan = require('morgan')
+
 
 app.use(bodyParser.json())
+// 3.7 lisää morgan
+// 3.8 konfiguroi morgania siten, että se näyttää
+// HTTP POST -pyyntöjen mukana tulevan datan
+morgan.token('post-info', function getData(req, res)
+                {
+                    const body = req.body
+                    let a = {name: body.name, number: body.number}
+                    return JSON.stringify(a)
+                }
+            )
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-info'))
 
 let persons = [
     {
