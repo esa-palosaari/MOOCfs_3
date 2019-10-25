@@ -31,11 +31,11 @@ let persons = [
         number: "39-44-532532",
         id: 4
     },
-    {
+/*     {
         name: "Dan Abramov",
         number: "12-43-234345",
         id: 3
-    },
+    }, */
     {
         name: "Mary Poppendieck",
         number: "39-23-6423122",
@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
     res.send('<h1>Hello!</h1>')
 })
 
-app.get('/persons', (req, res) => {
+app.get('/api/persons', (req, res) => {
     res.json(persons)
 })
 
@@ -119,7 +119,7 @@ const randomId = () => {
     return Math.floor(Math.random()*Number.MAX_SAFE_INTEGER)
 }
 
-app.post('/persons', (request, response) =>
+app.post('/api/persons', (request, response) =>
 {
     const body = request.body
     if (!body.name) 
